@@ -1,0 +1,49 @@
+PROCEDURE "test2.test2db::createCountry" (
+
+  IN im_country NVARCHAR(100), im_continent NVARCHAR(100),
+
+  OUT ex_error NVARCHAR(100))
+
+  LANGUAGE SQLSCRIPT SQL
+
+  SECURITY INVOKER AS
+
+  --READS SQL DATA AS
+
+BEGIN
+
+declare noc integer;
+
+select count(*) into noc
+
+  from "test2.test2db::tinyf2.world"
+
+  where "continent" = im_continent;
+
+if :noc = 0 then
+
+  ex_error := 'ERROR: Continent ' || :im_continent || ' does not exist!';
+
+else
+
+  select count(*) into noc
+
+     from "test2.test2db::tinyf2.country"
+
+     where "name" = im_country;
+
+  if :noc > 0 then
+
+     ex_error := 'ERROR: Country ' || :im_country || ' already exists!';
+
+  else
+
+     insert into "test2.test2db::tinyf2.country"
+
+           values (im_country, im_continent);
+
+  end if;
+
+end if;
+
+END;

@@ -1,0 +1,5 @@
+service {
+
+  "test2.test2db::myview" as "euro" keys generate local "ID";
+
+}

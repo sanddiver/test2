@@ -1,0 +1,23 @@
+namespace test2.test2db;
+
+context tinyf2 {
+    entity world {
+        key continent : String(100);
+    };
+
+    /*@@layout{"layoutInfo":{"x":-576,"y":-33.5}}*/
+    entity country {
+        key name   : String(100);
+            partof : association[0..1] to world;
+    };
+
+    entity table_change {
+        col1 : String(10);
+        col2 : String(10) not null default 'test';
+    }
+
+    entity table_nochange {
+        col1 : String(10);
+        col2 : String(10);
+    }
+};

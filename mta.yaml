@@ -1,0 +1,39 @@
+ID: test2
+_schema-version: '2.0'
+version: 0.0.2
+
+modules:
+ - name: test2db
+   type: hdb
+   path: test2db
+   requires:
+    - name: hdi-container
+
+
+ - name: test2js
+   type: nodejs
+   path: test2js
+   requires:
+    - name: test2db
+    - name: hdi-container
+   provides:
+    - name: test2js_api
+      properties:
+         service_url: ${default-url}
+
+    
+ - name: test2ui
+   type: html5
+   path: test2ui
+   requires:
+    - name: test2js_api
+      group: destinations
+      properties:
+         name: test2js_be
+         url: ~{service_url}      
+
+resources:
+ - name: hdi-container
+   properties:
+      hdi-container-name: ${service-name}
+   type: com.sap.xs.hdi-container
